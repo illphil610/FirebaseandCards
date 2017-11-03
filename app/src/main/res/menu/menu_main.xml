@@ -9,8 +9,8 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/addIcon"
+        android:id="@+id/add_icon"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/addIcon"
+        android:icon="@drawable/add_icon"
         android:title="@string/add_event" />
 </menu>
