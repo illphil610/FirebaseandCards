@@ -5,25 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.phil.firebaseandcards.LoginActivity">
+    tools:context="com.example.phil.firebaseandcards.RegisterActivity">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/loginEmail"
+        android:id="@+id/name_field"
+        android:hint="Enter Name"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/email_field"
         android:hint="Enter email"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/loginPassword"
+        android:id="@+id/password_field"
         android:hint="Enter password"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/loginButton"
-        android:text="Log in"
-        android:onClick="loginButtonClicked"/>
-
+        android:text="Register"
+        android:onClick="registerButtonClicked"/>
 </LinearLayout>

@@ -12,14 +12,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText nameField;
-    private EditText emailField;
-    private EditText passwordField;
+    private EditText loginEmail;
+    private EditText loginPassword;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -28,35 +30,43 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        nameField = (EditText) findViewById(R.id.name_field);
-        passwordField = (EditText) findViewById(R.id.password_field);
-        emailField = (EditText) findViewById(R.id.email_field);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        loginEmail = (EditText) findViewById(R.id.loginEmail);
+        loginPassword = (EditText) findViewById(R.id.loginPassword);
     }
 
-    public void registerButtonClicked(View view) {
-        final String name = nameField.getText().toString().trim();
-        final String email = emailField.getText().toString().trim();
-        final String password = passwordField.getText().toString().trim();
+    public void loginButtonClicked(View view) {
+        String email = loginEmail.getText().toString().trim();
+        String passowrd = loginPassword.getText().toString().trim();
 
-        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        if (!TextUtils.isEmpty(email) && ! TextUtils.isEmpty(passowrd)) {
+            mAuth.signInWithEmailAndPassword(email, passowrd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        String user_id = mAuth.getCurrentUser().getUid();
-                        DatabaseReference current_user_db = mDatabase.child(user_id);
-                        current_user_db.child("Name").setValue(name);
-                        current_user_db.child("Image").setValue("default");
-
-                        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(mainIntent);
+                        checkUserExists();
                     }
-
                 }
             });
         }
+    }
+
+    public void checkUserExists() {
+        final String user_id = mAuth.getCurrentUser().getUid();
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(user_id)) {
+                    Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(loginIntent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }
