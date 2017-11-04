@@ -30,7 +30,7 @@ public class EventReport {
         return description;
     }
 
-    public void setmDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
