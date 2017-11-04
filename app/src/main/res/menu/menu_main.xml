@@ -13,4 +13,10 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/add_icon"
         android:title="@string/add_event" />
+
+    <item
+        android:id="@+id/log_out"
+        android:orderInCategory="100"
+        android:title="Log out"
+        app:showAsAction="never" />
 </menu>
