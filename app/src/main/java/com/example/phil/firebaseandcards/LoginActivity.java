@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -33,7 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        loginEmail = (EditText) findViewById(R.id.loginEmail);
+        loginEmail = (EditText) findViewById(R.id.login);
+        loginEmail.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
         loginPassword = (EditText) findViewById(R.id.loginPassword);
     }
 
@@ -68,5 +70,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    public void registerButtonClicked(View view) {
+        Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(registerIntent);
     }
 }
